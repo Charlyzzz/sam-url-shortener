@@ -20,10 +20,14 @@ class DecimalEncoder(json.JSONEncoder):
 
 
 def lambda_handler(event, context):
-    print(event)
+    user_agent = event['headers']['User-Agent'].lower()
+    print(user_agent)
     slug = event['pathParameters']['slug']
     if slug is None:
         return response(400, {"error": 'slug is missing'})
+    if "bot" in user_agent or "facebookexternalhit" in user_agent:
+        print("detected scrapping")
+        return bot_landing()
     try:
         get_item_response = urls_table.get_item(
             Key={
@@ -40,6 +44,29 @@ def lambda_handler(event, context):
             return redirect(url)
         else:
             return not_found(slug)
+
+
+def bot_landing():
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": 'text/html'
+        },
+        "body": """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta property="og:title" content="The Rock" />
+    <meta property="og:type" content="video.movie" />
+    <meta property="og:url" content="http://www.imdb.com/title/tt0117500/" />
+    <meta property="og:image" content="http://ia.media-imdb.com/images/rock.jpg" />
+</head>
+<body>
+</body>
+</html>
+"""
+    }
 
 
 def response(status_code, body=None):
