@@ -1,0 +1,8 @@
+set -xeo
+
+sam build
+
+sam package --output-template packaged-yaml --s3-bucket edebusschere-sam-url-shortener --profile 10pines
+
+aws cloudformation deploy --template-file /Users/devpino/Documents/Python/url-shortener/packaged-yaml --stack-name url-shortener --profile 10pines --region us-west-2 --capabilities CAPABILITY_IAM
+
