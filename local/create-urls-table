@@ -1,0 +1,20 @@
+aws dynamodb delete-table --table-name urls\
+  --endpoint-url http://localhost:8000
+
+
+aws dynamodb  \
+  create-table  --cli-input-json \
+  '{
+      "TableName": "urls",
+      "KeySchema": [
+        { "AttributeName": "id", "KeyType": "HASH" }
+      ],
+      "AttributeDefinitions": [
+        { "AttributeName": "id", "AttributeType": "S" }
+      ],
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+      }
+  }' \
+  --endpoint-url http://localhost:8000

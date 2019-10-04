@@ -1,0 +1,7 @@
+{
+  "Parameters": {
+    "URLS_TABLE": "urls",
+    "DB_ENDPOINT": "http://docker.for.mac.localhost:8000",
+    "REGION_NAME": "us-west-2"
+  }
+}

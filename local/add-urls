@@ -1,0 +1,7 @@
+aws dynamodb \
+    put-item --table-name urls \
+    --item '{
+        "id": {"S": "gh"},
+        "url" : {"S" : "https://github.com"}
+        }' \
+    --endpoint-url http://localhost:8000
