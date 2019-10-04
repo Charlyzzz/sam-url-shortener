@@ -1,4 +1,4 @@
-set -xeo
+set -euo pipefail
 
 sam build
 

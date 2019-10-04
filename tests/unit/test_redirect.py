@@ -1,8 +1,8 @@
-import json
+from unittest.mock import MagicMock
 
 import pytest
 
-from hello_world import app
+from lambdas.redirect import redirect
 
 
 @pytest.fixture()
@@ -62,12 +62,9 @@ def apigw_event():
     }
 
 
-def test_lambda_handler(apigw_event, mocker):
-
-    ret = app.lambda_handler(apigw_event, "")
-    data = json.loads(ret["body"])
-
-    assert ret["statusCode"] == 200
-    assert "message" in ret["body"]
-    assert data["message"] == "hello world"
-    # assert "location" in data.dict_keys()
+def test_missing_slug_returns_404(apigw_event):
+    apigw_event['pathParameters'] = {'slug': 'a'}
+    urls_table = MagicMock()
+    urls_table.get_items.return_value = {}
+    gateway_response = redirect(urls_table, apigw_event)
+    assert gateway_response['statusCode'] == 404
