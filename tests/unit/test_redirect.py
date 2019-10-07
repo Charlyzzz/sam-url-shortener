@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from lambdas.redirect import redirect
+from shortener.redirect import redirect
 
 
 @pytest.fixture()
@@ -63,7 +63,7 @@ def apigw_event():
 
 
 def test_missing_slug_returns_404(apigw_event):
-    apigw_event['pathParameters'] = {'slug': 'a'}
+    apigw_event['pathParameters'] = {'slug': 'github'}
     urls_table = MagicMock()
     urls_table.get_items.return_value = {}
     gateway_response = redirect(urls_table, apigw_event)

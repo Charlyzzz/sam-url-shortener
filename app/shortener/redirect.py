@@ -1,6 +1,7 @@
 from botocore.exceptions import ClientError
 
 from .api_gateway import json_response, html_response, not_found
+from .api_gateway import redirect as gateway_redirect
 
 
 def redirect(urls_table, event):
@@ -20,7 +21,7 @@ def redirect(urls_table, event):
         if 'Item' in found_url_entry:
             item = found_url_entry['Item']
             url = item['url']
-            return redirect(url)
+            return gateway_redirect(url)
         else:
             return not_found(slug)
 

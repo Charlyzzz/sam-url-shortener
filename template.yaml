@@ -14,14 +14,13 @@ Globals:
         URLS_TABLE: !Ref DynamoUrlsTable
         DB_ENDPOINT: http://dynamodb.us-west-2.amazonaws.com
         REGION_NAME: us-west-2
-        PYTHON_PATH: lambdas/
 
 Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: lambdas/
-      Handler: app.redirect_lambda_handler
+      CodeUri: app
+      Handler: lambda.app.redirect_handler
       Policies: AmazonDynamoDBFullAccess
       Runtime: python3.7
       Events:
